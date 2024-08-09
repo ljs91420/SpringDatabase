@@ -1,0 +1,83 @@
+01_Mybatis 설정하기.txt
+
+## Mybatis ##
+
+	- DB와 연결하는데 필요한 모든 jdbc 코드를 자동으로 생성해주는 프레임워크
+	- XML 파일을 보고 작성해두면 필요한 코드는 모두 자동으로 생성한다
+	
+## Mybatis 설정하기
+	- application.properties
+	
+		+ datasource 설정 (기본적으로 hikariCP를 사용함)
+			spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+			spring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521:xe
+			spring.datasource.username=hr
+			spring.datasource.password=1234
+	
+		+ hikari 에 관련된 설정
+			spring.datasource.hikari.maximum-pool-size=10
+			spring.datasource.hikari.minimum-idle=5
+			spring.datasource.hikari.idle-timeout=900000
+			... 등등
+			
+			#spring.datasource.hikari.maximum-pool-size: 커넥션 풀의 최대 커넥션 수.
+			#spring.datasource.hikari.minimum-idle: 최소 유휴 커넥션 수.
+			#spring.datasource.hikari.idle-timeout: 커넥션이 유휴 상태로 유지될 수 있는 최대 시간.
+			#spring.datasource.hikari.max-lifetime: 커넥션이 풀에서 유지될 수 있는 최대 시간.
+		
+		+ Mybatis 에 관련된 설정
+		
+			mybatis.config-location=classpath:mybatis-config.xml
+			mybatis.mapper-locations=classpath:mapper/**/*.xml	
+			
+			
+			
+	- src/main/resources/mybatis-config.xml
+	
+	 ※ 설정 예시
+	 <!DOCTYPE configuration
+	  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+	 <!-- Window > Preferences > Maven > download artifact javadoc 체크 하면 빨간 줄 없어짐 -->
+	 <configuration>
+	 <!-- 별칭으로 따로 저장하여 mapper 파일에서 사용할 수 있다 -->
+	   <typeAliases>
+	  		<typeAlias type="com.ezen.springdata.dto.EmployeeDTO" alias="emp"/>
+	   </typeAliases>
+	 </configuration>
+	
+	
+	
+	
+	
+	- src/main/resources/mapper/*.xml
+	
+	※ 설정 예시
+	
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	  <!-- mapper의 namespace는 이 mapper를 가져다 쓸 때의 이름이다 -->
+	<mapper namespace="Employees">
+	  <select id="getAll" resultType="com.ezen.springdata.dto.EmployeeDTO">
+	  		SELECT 
+	  			employee_id, first_name, last_name, email, phone_number,
+	  			hire_date, job_id, salary, commission_pct, manager_id,
+	  			department_id
+	  		FROM
+	  			employees2
+	  </select>
+	  <select id="get" resultType="emp" parameterType="Integer">
+	  		SELECT 
+	  			employee_id, first_name, last_name, email, phone_number,
+	  			hire_date, job_id, salary, commission_pct, manager_id,
+	  			department_id
+	  		FROM
+	  			employees2
+	  		WHERE
+	  			employee_id = #{employee_id} <!-- 파라미터 사용 : #{ } -->
+	  </select>
+	  
+	</mapper>
+		

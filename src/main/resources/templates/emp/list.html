@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>사원 목록</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4">사원 목록 페이지 입니다.</h3>
+        <h1 class="mb-4">Employee List</h1>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Department ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+					<th>Salary</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${empList}">
+                    <td><a th:href="@{/emp/detail(employee_id=${employee.employee_id})}" th:text="${employee.employee_id}"></a></td>
+                    <td th:text="${employee.department_id}"></td>
+                    <td th:text="${employee.first_name}"></td>
+                    <td th:text="${employee.last_name}"></td>
+                    <td th:text="${employee.salary}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td th:text="${employee.phone_number}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

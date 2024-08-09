@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title th:text="${emp.first_name} + '의 상세정보'"></title>
+</head>
+	<style>
+		tr th {
+			border: none;
+		}
+	</style>
+<body>
+	<h3>'[[${emp.first_name} + ' ' + ${emp.last_name}]]' 의 정보</h3>
+	
+	<div th:text="${emp}"></div>
+	<table border="1">
+		<tr>
+			<th>이름</th>
+			
+		</tr>
+		<tr>
+			<td th:text="${emp.first_name} + ' ' + ${emp.last_name}"></td>
+		</tr>
+	</table>
+</body>
+</html>

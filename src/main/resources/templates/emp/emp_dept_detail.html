@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<body>
+	<h3>부서정보</h3>
+	
+	<div>[[${emp_dept.department_name}]]([[${emp_dept.department_id}]])</div>
+	
+	<h3>사원정보</h3>
+	
+	<div th:text="'이름 : ' + ${emp_dept.first_name} +' ' + ${emp_dept.last_name}"></div>
+	
+</body>
+</html>
