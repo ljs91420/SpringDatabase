@@ -28,8 +28,11 @@ public class FruitsTestController {
 	public String addFruit(FruitDTO fruitDto) {
 		log.info("{}", fruitDto);
 		
-		log.info("INSERT 결과 : {}", fruitRepository.add(fruitDto));
+		log.info("INSERT 결과 : {}", fruitRepository.add2(fruitDto));
 		
 		return "redirect:/fruits/add";
 	}
+	
+	// 과일 목록 보기, 과일 삭제하기, 과일 정보 수정하기
+	
 }

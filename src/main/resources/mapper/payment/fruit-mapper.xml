@@ -2,12 +2,34 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <!-- mapper의 namespace는 이 mapper를 가져다 쓸 때의 이름이다 -->
+  
+<!-- mapper의 namespace는 이 mapper를 가져다 쓸 때의 이름이다 -->
 <mapper namespace="Fruits">
 	<insert id="add" parameterType="fruit">
 		INSERT INTO fruits
-			(fname, price, qty, exp_date)
+			(fid, fname, price, qty, exp_date) 
 		VALUES
-			(#{fname}, #{price}, #{qty}, sysdate + 7)
-	</insert> 
+		<if test="exp_date != null">
+			(fruit_fid_seq.nextval, #{fid}, #{fname}, #{price}, #{qty}, #{exp_date})
+		</if>
+		<if test="exp_date == null">
+			(fruit_fid_seq.nextval, #{fid}, #{fname}, #{price}, #{qty}, sysdate + 7)
+		</if>
+	</insert>
+	<!-- insert 후 숫자 대신 키값을 알아내는 방식 -->
+	<insert id="add2" parameterType="fruit">
+		<selectKey keyProperty="fid" resultType="Integer" order="BEFORE">
+		<!-- insert문에 selectKey를 사용하면 insert 성공 여부 대신 키값이 추가된 dto를 반환한다. -->
+			SELECT fruit_fid_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO fruits
+			(fid, fname, price, qty, exp_date) 
+		VALUES
+		<if test="exp_date != null">
+			(#{fid}, #{fid}, #{fname}, #{price}, #{qty}, #{exp_date})
+		</if>
+		<if test="exp_date == null">
+			(#{fid}, #{fid}, #{fname}, #{price}, #{qty}, sysdate + 7)
+		</if>
+	</insert>
 </mapper>

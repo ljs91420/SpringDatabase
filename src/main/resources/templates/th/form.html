@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>과일 폼</title>
+</head>
+<body>
+	<h3>과일 폼(th:object, th:field, th:value)</h3>
+	
+	<p th:text="'전달받은 과일을 <b>수정할 수 있는 페이지</b>'"></p>
+	
+	<p th:utext="'전달받은 과일을 <b>수정할 수 있는 페이지</b><script>console.log(\'위험!\');</script>'"></p>
+	
+	<form action="" th:object="${fruit}">
+		<!-- 기존에 했어야 하는 일 -->
+		과일 번호 : <input type="text" name="fid" th:value="${fruit.fid}" /> <br>
+		<!-- th:field를 쓰는 경우 (th:field 하나로 name과 value를 모두 해결 -->
+		과일 이름 : <input type="text" th:field="*{fname}" /> <br>
+	</form>
+	
+	<h3>th:each</h3>
+	
+	<ul>
+		<li>두 번째 변수를 받으면 반복문 정보 객체(varStatus)를 사용할 수 있다.</li>
+		<li>나열할 수 있는(iterable) 객체로 반복문을 돌릴 수 있다.</li>
+	</ul>
+	
+	<ul>
+		<li>status.index : 0부터 숫자 세기</li>
+		<li>status.count : 1부터 숫자 세기</li>
+		<li>status.size : 전체 크기</li>
+		<li>status.first : 첫 번째면 true</li>
+		<li>status.last : 마지막이면 true</li>
+		<li>status.current : 현재 값</li>
+		<li>status.even : 짝수면 true</li>
+		<li>status.odd : 홀수면 true</li>
+	</ul>
+	
+	<table border="1" style="color: white;">
+		<tr style="background-color: black;">
+			<th>status.index</th>
+			<th>status.count</th>
+			<th>status.current</th>
+			<th>status.even</th>
+			<th>status.odd</th>
+			<th>status.first</th>
+			<th>status.last</th>
+			<th>동물 이름(status.current)</th>
+		</tr>
+		<th:block th:each="animal, status: ${animals}">
+			<th:block th:if="${status.even}">
+				<tr style="background-color: red;">
+			</th:block>
+			<th:block th:if="${status.odd}">
+				<tr style="background-color: skyblue;">
+			</th:block>
+				<td th:text="${status.index}"></td>
+				<td th:text="${status.count}"></td>
+				<td th:text="${status.current}"></td>
+				<td th:text="${status.even}"></td>
+				<td th:text="${status.odd}"></td>
+				<td th:text="${status.first}"></td>
+				<td th:text="${status.last}"></td>
+				<td th:text="${animal}"></td>
+			</tr>
+		</th:block>
+	</table>
+	
+	<h3>th:if, th:unless, th:block</h3>
+	
+	<ul>
+		<li>th:if - 해당 조건이 참인 경우 출력</li>
+		<li>th:unless - 해당 조건이 거짓인 경우 출력</li>
+		<li>th:block - 조건을 블록 단위로 적용하기 위한 태그</li>
+	</ul>
+	
+	<div th:if="${age > 26}">공부를 열심히 합니다.</div>
+	<div th:unless="${age > 26}">말도 안 듣고 공부도 안 하고 출석도 안 하고...</div>
+	
+	<th:block th:if="${age == 24}">
+		<div>이름 : 오혜준</div>
+		<div>공부 : 안 함</div>
+		<div>잠 : 잘 잠</div>
+	</th:block>
+	
+	<h3>th:switch, th:case</h3>
+	
+	<p>switch-case문을 사용할 수 있다.</p>
+	
+	<div th:switch="${age}">
+		<span th:case="24" th:text="'오혜준(잠을잘잠)'"></span>
+		<span th:case="25" th:text="'홍기성(타의모범이되는우수한학생)'"></span>
+		<span th:case="26" th:text="'주형돈(폰겜을잘함)'"></span>
+	</div>
+	
+	<h3>@{}로 url 만들기</h3>
+	
+	<ul>
+		<li>@{url} : 작성한 url에 Context Path를 추가해주는 문법</li>
+		<li>@{|url|} : url 작성시 파라미터가 필요한 경우 사용</li>
+		<li>@{url(parameter,)} : GET 방식 파라미터가 추가된 URL</li>
+	</ul>
+	
+	<a th:href="@{/fruit/${fruit.fid}}">해당 과일 주문 보러 가기</a> <br>
+	<a th:href="@{|/fruit/${fruit.fid}|}">해당 과일 주문 보러 가기</a> <br>
+	<a th:href="@{/coffee/menu(cate=ade,order=fa)}">카테고리(에이드) 링크</a> <br>
+	<a th:href="@{/fruit/detail(fid=${fruit.fid})}">[[${fruit.fid}]]번 과일 상세정보</a>
+	<a th:href="@{|/fruit/${fruit.fname}|(qty=${fruit.qty})}">모든 것을 활용한 링크</a>
+	
+	<h3>th:inline="javascript"</h3>
+	
+	<ul>
+		<li>script 태그 내부에서 타임리프 문법을 쓰기 위해 사용</li>
+	</ul>
+	
+	<script th:inline="javascript">
+		console.log("${fruit.fid}");
+		console.log('${fruit.fid}');
+		
+		// 대괄호를 사용해 어트리뷰트를 꺼내 사용하는 것이 가능
+		console.log([[${fruit.fid}]]);
+		console.log([[${fruit.fname}]]);
+		
+		// Java 객체는 Javascript Object 타입으로 변환
+		console.log([[${fruit}]]); 
+		console.log('[[${fruit.fname}]]');
+	</script>
+	
+	<h3>타임리프의 리터럴</h3>
+	
+	<ul>
+		<li th:text="123 + 345"></li>
+		<li th:text="'123' + 345"></li>
+		<li th:text="123 + ${age}"></li>
+		<li th:text="|123 + ${age}|"></li>
+		<li th:text="|/fruit/${fruit.fid}|"></li>
+	</ul>
+	
+	<h3>타임리프의 연산</h3>
+	
+	<ul>
+		<li th:text="10 % 7"></li>
+		<li th:text="1 == 2"></li>
+		<li th:text="1 != 2"></li>
+		<li th:text="1 eq 2"></li> <!-- eq : equals (같다) -->
+		<li th:text="1 ne 2"></li> <!-- ne : not equal (같다) -->
+		<li th:text="1 gt 2"></li> <!-- gt : greater than (왼쪽이 더 크다) -->
+		<li th:text="1 lt 2"></li> <!-- lt : less than equal (왼쪽이 더 작다) -->
+		<li th:text="1 ge 2"></li> <!-- ge : greater than equal (왼쪽이 더 크거나 같다) -->
+		<li th:text="1 le 2"></li> <!-- le : less than equal (왼쪽이 더 작거나 같다) -->
+		<li th:text="not (1 == 2)"></li>
+	</ul>
+	
+	<h3>삼항 (? :)</h3>
+	
+	<div th:text="${fruit.price} > 1000 ? '비쌈' : '쌈'"></div>
+	
+	<h3>널값 체크 (?:)</h3>
+	
+	<p>?: 왼쪽의 값이 null이면 오른쪽의 값을 사용한다. null이 아니면 왼쪽의 값을 사용한다.</p>
+	
+	<div th:text="${fruit.exp_date ?: '유통기한 모름'}"></div>
+	<div th:text="${fruit2.exp_date ?: '유통기한 모름'}"></div>
+	
+	<h3>동작 안 하기(_)</h3>
+	
+	<div th:text="'안녕하세요?'">이 문장은 th:text에 의해 덮어쓰여집니다.</div>
+	<div th:text="_">이 문장은 th:text에 의해 덮어쓰여집니다.</div>
+	
+	<!-- 유통기한이 null이면 _가 작동해 div의 content를 덮어쓰지 않는다. 유통기한이 제대로 존재할 때는 fruit.exp_date로 값을 덮어쓴다. -->
+	<div th:text="${fruit2.exp_date} ?: _">유통기한이 없는 상품입니다.</div>
+</body>
+</html>

@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class FruitDTO {
+	private Integer fid;
 	private String fname;
 	private Integer price;
 	private Integer qty;
