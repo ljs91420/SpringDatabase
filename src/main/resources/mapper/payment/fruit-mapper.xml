@@ -5,6 +5,9 @@
   
 <!-- mapper의 namespace는 이 mapper를 가져다 쓸 때의 이름이다 -->
 <mapper namespace="Fruits">
+	<select id="getAll" resultType="fruit">
+		SELECT * FROM fruits ORDER BY fid DESC
+	</select>
 	<insert id="add" parameterType="fruit">
 		INSERT INTO fruits
 			(fid, fname, price, qty, exp_date) 
@@ -31,5 +34,11 @@
 		<if test="exp_date == null">
 			(#{fid}, #{fid}, #{fname}, #{price}, #{qty}, sysdate + 7)
 		</if>
+	</insert>
+	<update id="reduceFruit" parameterType="java.util.HashMap">
+		UPDATE fruits SET qty = qty - #{qty} WHERE fid = #{fid}
+	</update>
+	<insert id="addHistory" parameterType="java.util.HashMap">
+		INSERT INTO FruitSalesHistory(fhid, fid, qty) VALUES(fhistory_fhid_seq.nextval, #{fid}, #{qty})
 	</insert>
 </mapper>

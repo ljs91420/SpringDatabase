@@ -1,0 +1,55 @@
+03_프로젝트 계층 구조.txt
+
+# 프로젝트 계층 
+
+	- 프로젝트를 구성하는 소스 코드들을 계층별로 분리한 것
+	- 화면 계층(Presentation Layer)
+	- 비즈니스 계층(Business Layer)
+	- 영속 계층(Persistence Layer)
+	
+# 화면 계층
+
+	- 화면에 보이는 코드를 작성하는 계층
+	- MVC의 V에 해당하는 계층
+	
+# 비즈니스 계층
+
+	- 고객의 요구사항(사업과 관련된 내용)을 구현하는 계층
+	- 웹에서는 하나의 요청에 여러 비즈니스 로직이 필요한 경우도 있기 때문에 계층의 분리가 필요하다.
+	- MVC로 따지면 Controller의 일부분을 객체지향적으로 분리한 내용에 해당한다.
+	
+# 영속 계층
+
+	- 프로젝트의 데이터에 접근하는 내용을 구현하는 계층
+	- 하나의 비즈니스 로직이 여러 데이터에 접근해야 하는 경우도 있기 때문에 계층의 분리가 필요하다.
+	- MVC로 따지면 C의 일부분에 해당한다.
+
+# 스프링 웹 프로젝트에서 각 계층에 대한 클래스 이름 규칙
+
+	- 비즈니스 로직 클래스 : xxxService(인터페이스), xxxServiceImpl(인터페이스 구현)
+	- 영속 계층 클래스 : xxxMapper(Mybatis), xxxRepository, xxxDao
+	- 데이터 클래스 : xxxVO, xxxDTO(Getter/Setter 모두 보유)
+	
+# 웹 프로젝트 패키지 나누는 방식
+
+	- 프로젝트 규모가 작은 경우
+	
+		컨트롤러, 비즈니스 계층, 영속 계층, 모델을 구분할 수 있도록 패키지를 작성한다.
+		
+		e.g) com.company.pizzamall.controller.PizzaOrderController
+		     com.company.pizzamall.repository.PizzaOrderRepository
+		     com.company.pizzamall.dto.PizzaOrder
+		     com.company.pizzamall.service.PizzaOrderService
+		     
+	- 프로젝트 규모가 큰 경우
+	
+		우선 비즈니스 단위별로 패키지 구분을 한 뒤 다시 내부에서 컨트롤러, 비즈니스 계층, 영속 계층, 모델을 구분할 수 있도록 패키지를 작성한다.
+	
+		e.g) com.company.pizzamall.member.controller.ResisterController
+		     com.company.pizzamall.member.repository.ResisterRepository
+		     com.company.pizzamall.member.service.ResisterService
+		     com.company.pizzamall.member.dto.Member
+		     
+		     com.company.pizzamall.order.controller.PizzaOrderController
+		     com.company.pizzamall.order.repository.ResisterRepository
+		     ...

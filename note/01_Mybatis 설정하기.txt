@@ -100,4 +100,7 @@
 	
 	- <delete> : 매퍼에 delete 쿼리문을 등록해놓을 때 사용한다
 	
-	
+# 동적 쿼리문
+
+	- Mybatis에서 if문, for문 등을 이용해 동적으로 쿼리문을 작성할 수 있다.
+	- https://mybatis.org/mybatis-3/ko/dynamic-sql.html
