@@ -1,0 +1,19 @@
+06_세션.txt
+
+# 스프링 부트 컨트롤러에서 세션 사용하는 방법
+
+	1. JSP에서처럼 HttpServletRequest에서 꺼낸다.
+	2. 그냥 HttpSession 객체를 적어놓으면 알아서 바인딩 된다.
+	3. @SessionAttributes와 모델 어트리뷰트를 함께 사용하는 방식
+	
+# 스프링 부트의 세션에서 좋아진 점
+
+	- JSP보다 세션에서 어트리뷰트 값을 꺼내기가 수월해졌다.(어트리뷰트는 원래 꺼낼 때 Object 타입이지만 스프링에서는 알아서 타입을 변환해준다.)
+	- 세션에 값이 없는 경우 발생하는 에러를 제어할 수 있다.(@SessionAttribute의 required 값을 false로 설정)
+
+		@GetMapping("/session/test2")
+		public String test2(@SessionAttribute("nickname") String nickname, @SessionAttribute(name = "point", required = false) Integer point) {
+			log.info("@SessionAttribute로 꺼낸 nickname : {}", nickname);
+			log.info("@SessionAttribute로 꺼낸 point : {}", point);
+			return "/session/index";
+		}

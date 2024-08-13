@@ -1,0 +1,39 @@
+08_Log4jdbc.txt
+
+# Log4jdbc
+
+	- jdbc에서 발생하는 일들을 로그에 추가해주는 라이브러리
+	- jdbc와 관련된 내용들을 디버깅할 때 매우 유용하다.
+	
+# 확인할 수 있는 jdbc 로그의 종류
+
+	- jdbc.sqlonly : 쿼리문만 확인하는 로거
+	- jdbc.sqltiming : SQL 실행하는 데 걸린 시간을 체크할 수 있는 로거
+	- jdbc.audit : 모든 JDBC 관련 로그를 출력하는 로거
+	- jdbc.resultset : ResultSet과 관련된 모든 내용을 출력하는 로거
+	- jdbc.resultsettable : 실행 결과로 얻어낸 ResultSet을 테이블 형태로 출력하는 로거
+	- jdbc.connection : 연결과 관련된 내용을 출력하는 로거
+	
+# 사용 예시
+
+	<logger name="jdbc.resultset" level="OFF" />
+	<logger name="jdbc.audit" level="OFF" />
+	<logger name="jdbc.connection" level="OFF" />
+	<logger name="jdbc.sqltiming" level="INFO" />
+	<logger name="jdbc.resultsettable" level="INFO" />
+	
+# 설정하기
+
+	- application.properties
+	
+		spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+		spring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521:xe
+		
+		를 아래와 같이 변경
+		
+		spring.datasource.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+		spring.datasource.url=jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe
+		
+	- src/main/resources에 log4jdbc.log4j2.properties를 추가
+	
+		log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator

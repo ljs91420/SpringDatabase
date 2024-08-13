@@ -1,0 +1,20 @@
+05_리다이렉트.txt
+
+# 스프링에서 리다이렉트 하기
+
+	- 컨트롤러 메서드에서 리턴하는 문자열 앞에 "redirect:"을 붙이면 리다이렉트 경로가 된다.
+	
+# Flash Attribute
+
+	- 스프리에서는 리다이렉트시에도 어트리뷰트를 전달할 수 있는 Flash Attribute 기능을 제공한다.
+	- 기본적으로는 리다이렉트시 GET 방식으로 파라미터를 전달할 수 있었지만 어트리뷰트를 전달할 수 없었다.(파라미터는 문자열만 전달 가능, 어트리뷰트는 자바 객체도 전달 가능)
+	
+# 사용방법
+
+	@GetMapping("/redirect/test3")
+	public String test3(RedirectAttributes rattr) {
+		// 리다이렉트시에 한 번 사용되고 사라지는 어트리뷰트(메모리 관리 용이)
+		rattr.addFlashAttribute("fruit", "grape");
+		rattr.addFlashAttribute("price", "3500");
+		return "redirect:/redirect/";
+	}
