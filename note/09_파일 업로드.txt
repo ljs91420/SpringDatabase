@@ -12,3 +12,4 @@
 
 	- method는 POST로 설정하고 추가로 enctype 속성을 multipart/form-data로 설정해야 한다.
 	- 파일이 포함된 폼 데이터를 바인딩받는 DTO는 해당 파일을 MultipartFile 타입으로 받을 수 있다.
+	- 파일이 여러 개 포함된 폼 데이터를 바인딩 받는 DTO는 해당 파일들을 List<MultipartFile> 타입으로 받을 수 있다.

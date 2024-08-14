@@ -22,5 +22,23 @@
 			</tr>
 		</table>
 	</form>
+	
+	<h3>사진 여러 개 업로드하기(multiple 속성 활성화)</h3>
+	
+	<form action="./multisave" method="POST" enctype="multipart/form-data">
+		<table border="2">
+			<tr>
+				<th>파일 여러 개 선택하기</th>
+				<td>
+					<input type="file" name="profileImageFiles" multiple />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" value="업로드하기" />
+				</td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>
